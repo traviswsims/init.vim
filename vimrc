@@ -41,8 +41,6 @@ set shell=zsh
   Plug 'sheerun/vim-polyglot'
   Plug 'chrisbra/Colorizer'
 
-  " Plug 'liquidz/vim-iced', {'for': 'clojure'}
-
   if has("nvim")
     Plug 'Olical/conjure', {'tag': 'v4.16.0'}
   end
@@ -187,7 +185,7 @@ noremap <Leader>lc :lclose<CR>
 noremap <Leader>st :SyntasticToggle<CR>
 noremap <Leader>sc :SyntasticCheck<CR>
 
-map K i<CR><Esc>
+noremap K i<CR><Esc>
 
 let g:vim_json_syntax_conceal = 0
 
@@ -242,3 +240,6 @@ noremap <Leader>k  :ConjureDocWord<CR>
 if has("nvim")
   let g:conjure#mapping#doc_word = ["<Leader>d"]
 endif
+
+
+command JSONPretty %!python -m json.tool
