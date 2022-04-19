@@ -1,61 +1,63 @@
+set bg=dark
 set encoding=utf-8
 
 set shell=zsh
 
 " Plugged
-  filetype off
-  call plug#begin('~/.vim/plugged')
-  Plug 'scrooloose/nerdtree'
+filetype off
 
-  Plug 'scrooloose/nerdcommenter'
-  Plug 'ervandew/supertab'
-  Plug 'junegunn/vim-easy-align'
-  Plug 'ntpeters/vim-better-whitespace'
-  Plug 'vim-scripts/AnsiEsc.vim'
-  Plug 'nvim-lualine/lualine.nvim'
-  Plug 'mhinz/vim-signify'
-  Plug 'tpope/vim-fugitive'
+call plug#begin('~/.vim/plugged')
+Plug 'scrooloose/nerdtree'
 
-  Plug 'Shougo/neocomplete.vim'
-  Plug 'wesQ3/vim-windowswap'
+Plug 'scrooloose/nerdcommenter'
+Plug 'ervandew/supertab'
+Plug 'junegunn/vim-easy-align'
+Plug 'ntpeters/vim-better-whitespace'
+Plug 'vim-scripts/AnsiEsc.vim'
+Plug 'nvim-lualine/lualine.nvim'
+Plug 'mhinz/vim-signify'
+Plug 'tpope/vim-fugitive'
 
-  Plug 'flazz/vim-colorschemes'
-  Plug 'jacoborus/tender.vim'
+Plug 'Shougo/neocomplete.vim'
+Plug 'wesQ3/vim-windowswap'
 
-  " Languages
-  Plug '2072/PHP-Indenting-for-VIm', {'for': 'php'}
-  Plug 'vim-scripts/Flex-4', {'for': ['actionscript', 'mxml']}
-  Plug 'luochen1990/rainbow'
-  Plug 'aclaimant/syntastic-joker'
-  Plug 'vim-syntastic/syntastic'
+Plug 'flazz/vim-colorschemes'
+Plug 'jacoborus/tender.vim'
 
-  Plug 'traviswsims/xoria256-darker'
-  Plug 'traviswsims/iceburger.vim'
+" Languages
+Plug '2072/PHP-Indenting-for-VIm', {'for': 'php'}
+Plug 'vim-scripts/Flex-4', {'for': ['actionscript', 'mxml']}
+Plug 'luochen1990/rainbow'
+Plug 'aclaimant/syntastic-joker'
+Plug 'vim-syntastic/syntastic'
 
-  Plug 'jremmen/vim-ripgrep'
+Plug 'traviswsims/xoria256-darker'
+Plug 'traviswsims/iceburger.vim'
 
-  Plug 'nvim-lua/plenary.nvim'
-  Plug 'nvim-telescope/telescope.nvim'
+Plug 'jremmen/vim-ripgrep'
 
-  Plug 'lervag/vimtex', {'for': 'tex'}
-  Plug 'gabrielelana/vim-markdown', {'for': 'markdown'}
-  Plug 'mkitt/tabline.vim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 
-  Plug 'sheerun/vim-polyglot'
-  Plug 'chrisbra/Colorizer'
+Plug 'lervag/vimtex', {'for': 'tex'}
+Plug 'gabrielelana/vim-markdown', {'for': 'markdown'}
+Plug 'mkitt/tabline.vim'
 
-  Plug 'edluffy/hologram.nvim'
+Plug 'sheerun/vim-polyglot'
+Plug 'chrisbra/Colorizer'
 
-  if has("nvim")
-    Plug 'Olical/conjure', {'tag': 'v4.16.0'}
-  end
+Plug 'edluffy/hologram.nvim'
 
-  call plug#end()
+if has("nvim")
+  Plug 'Olical/conjure', {'tag': 'v4.16.0'}
+end
+
+call plug#end()
 
 syntax on
 filetype plugin indent on
 
-if has("gui_macvim") || has("nvim")
+if has("nvim")
   colorscheme iceburger
   highlight NormalFloat ctermbg=238 guibg=238
 endif
