@@ -12,8 +12,9 @@ set shell=zsh
   Plug 'junegunn/vim-easy-align'
   Plug 'ntpeters/vim-better-whitespace'
   Plug 'vim-scripts/AnsiEsc.vim'
-  Plug 'bling/vim-airline'
+  Plug 'nvim-lualine/lualine.nvim'
   Plug 'mhinz/vim-signify'
+  Plug 'tpope/vim-fugitive'
 
   Plug 'Shougo/neocomplete.vim'
   Plug 'wesQ3/vim-windowswap'
@@ -21,7 +22,7 @@ set shell=zsh
   Plug 'flazz/vim-colorschemes'
   Plug 'jacoborus/tender.vim'
 
-  " Lauages
+  " Languages
   Plug '2072/PHP-Indenting-for-VIm', {'for': 'php'}
   Plug 'vim-scripts/Flex-4', {'for': ['actionscript', 'mxml']}
   Plug 'luochen1990/rainbow'
@@ -32,7 +33,9 @@ set shell=zsh
   Plug 'traviswsims/iceburger.vim'
 
   Plug 'jremmen/vim-ripgrep'
-  Plug 'junegunn/fzf'
+
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-telescope/telescope.nvim'
 
   Plug 'lervag/vimtex', {'for': 'tex'}
   Plug 'gabrielelana/vim-markdown', {'for': 'markdown'}
@@ -40,6 +43,8 @@ set shell=zsh
 
   Plug 'sheerun/vim-polyglot'
   Plug 'chrisbra/Colorizer'
+
+  Plug 'edluffy/hologram.nvim'
 
   if has("nvim")
     Plug 'Olical/conjure', {'tag': 'v4.16.0'}
@@ -118,9 +123,9 @@ au BufRead,BufNewFile .re-natal set filetype=json
 
 
 " Don't use working location as vim's dumping ground
-set backupdir=~/.vim/backup//
-set directory=~/.vim/swap//
-set undodir=~/.vim/undo//
+set backupdir=~/.config/nvim/backup//
+set directory=~/.config/nvim/swap//
+set undodir=~/.config/nvim/undo//
 
 " Remap to switch tabs
 " Press Ctrl-Tab to switch between open tabs (like browser tabs) to
@@ -168,13 +173,20 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
+nnoremap <D-]> :vertical resize -20<CR>
+nnoremap <D-[> :vertical resize +20<CR>
+
 
 let g:rg_derive_root=1
 let g:rg_highlight=1
-noremap <Leader>r :Rg<Space>
-noremap <Leader>f :FZF .<CR>
-noremap <Leader>fs :FZF src/<CR>
-noremap <Leader>F :FZF<Space>
+noremap <Leader>r :Rg
+" noremap <Leader>f :FZF .<CR>
+" noremap <Leader>fs :FZF src/<CR>
+" noremap <Leader>F :FZF<Space>
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 nnoremap <Leader>s :%s/\<<C-r><C-w>\>//g<Left><Left>
 
 noremap <F5> :e<CR>
@@ -233,13 +245,37 @@ if has("gui_macvim") || has("nvim")
 endif
 
 " Conjure stuff
-noremap <Leader>ad :ConjureShadowSelect android-dev<Cr>
-noremap <Leader>id :ConjureShadowSelect ios-dev<Cr>
+noremap <Leader>ad :ConjureShadowSelect android-dev<CR>
+noremap <Leader>id :ConjureShadowSelect ios-dev<CR>
 noremap <Leader>k  :ConjureDocWord<CR>
 
+
 if has("nvim")
-  let g:conjure#mapping#doc_word = ["<Leader>d"]
+  let g:conjure#mapping#doc_word = ["<Leader>ld"]
+  let g:conjure#client#clojure#nrepl#mapping#session_clone = ["<Leader>s0"]
+  let g:conjure#log#hud#height = 1.0
+  let g:conjure#log#wrap = 1
 endif
 
 
+noremap <Leader>gb :Git blame<CR>
+noremap <Leader>vv :vsplit<CR>
+
+
 command JSONPretty %!python -m json.tool
+
+lua << END
+  require('lualine').setup({
+    options = { theme = iceburg_dark,
+                icons_enabled = false
+              }
+  })
+
+  require('telescope').setup({
+    defaults = {
+      layout_config = { width = 0.95,
+                        height = 0.95
+                      }
+    }
+  })
+END
