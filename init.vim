@@ -6,8 +6,11 @@ set shell=zsh
 " Plugged
 filetype off
 
-call plug#begin('~/.vim/plugged')
-Plug 'scrooloose/nerdtree'
+call plug#begin('~/.config/nvim/plugged')
+
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
 Plug 'scrooloose/nerdcommenter'
 Plug 'ervandew/supertab'
@@ -28,8 +31,7 @@ Plug 'jacoborus/tender.vim'
 Plug '2072/PHP-Indenting-for-VIm', {'for': 'php'}
 Plug 'vim-scripts/Flex-4', {'for': ['actionscript', 'mxml']}
 Plug 'luochen1990/rainbow'
-Plug 'aclaimant/syntastic-joker'
-Plug 'vim-syntastic/syntastic'
+Plug 'dense-analysis/ale'
 
 Plug 'traviswsims/xoria256-darker'
 Plug 'traviswsims/iceburger.vim'
@@ -49,7 +51,7 @@ Plug 'chrisbra/Colorizer'
 Plug 'edluffy/hologram.nvim'
 
 if has("nvim")
-  Plug 'Olical/conjure', {'tag': 'v4.16.0'}
+  Plug 'Olical/conjure', {'for': 'clojure', 'tag': 'v4.16.0'}
 end
 
 call plug#end()
@@ -62,25 +64,19 @@ if has("nvim")
   highlight NormalFloat ctermbg=238 guibg=238
 endif
 
-if has("gui_macvim")
-  set cryptmethod=blowfish2
-  set guifont=FiraCode-Retina:h16
-  set linespace=7
-endif
-
 set laststatus=2 " powerline
 
 
-set cursorline
-set nocompatible " lots of vimrc bugs otherwise
 set vb " disable Vim bell
+set nocompatible " lots of vimrc bugs otherwise
+set cursorline
 set ruler " show line and column number at the bottom of the screen
-set nowrap
 set autoindent
 set tabstop=2
 set shiftwidth=2
 set expandtab
 set number
+set autoread " auto-reload files changed by external source
 set ic " ignore search case
 set hls " highlight search matches
 set nofoldenable " disable folding
@@ -91,7 +87,6 @@ set ttyfast
 set splitbelow
 set splitright
 set showtabline=2
-set autoread " auto-reload files changed by external source
 autocmd FocusGained * silent! checktime
 
 " Start interactive EasyAlign in visual mode
@@ -110,18 +105,22 @@ map <F1> <Esc>
  " insert, command modes
 map! <F1> <Esc>
 
+nnoremap # :/<C-r><C-w><CR>
+
+
 " File types
 au BufNewFile,BufRead,BufEnter *.sass set ft=sass
-au Bufread,BufNewFile *.as   set ft=actionscript
-au BufRead,BufNewFile *.mxml set ft=actionscript
-au BufRead,BufNewFile *.edn  set ft=clojure
-au BufRead,BufNewFile *.em   set ft=emblem
+au BufNewFile,BufRead,BufEnter *.as   set ft=actionscript
+au BufNewFile,BufRead,BufEnter *.mxml set ft=actionscript
+au BufNewFile,BufRead,BufEnter *.em   set ft=emblem
 au BufNewFile,BufRead,BufEnter *.md set ft=markdown
-au BufRead,BufNewFile *.md setlocal textwidth=120
-au BufRead,BufNewFile *.tex setlocal textwidth=120
-au BufRead,BufNewFile *.rabl set ft=ruby
-au BufRead,BufNewFile Podfile set filetype=ruby
-au BufRead,BufNewFile .re-natal set filetype=json
+au BufNewFile,BufRead,BufEnter *.md setlocal textwidth=120
+au BufNewFile,BufRead,BufEnter *.tex setlocal textwidth=120
+au BufNewFile,BufRead,BufEnter *.rabl set ft=ruby
+au BufNewFile,BufRead,BufEnter Podfile set filetype=ruby
+au BufNewFile,BufRead,BufEnter .re-natal set filetype=json
+au BufNewFile,BufRead,BufEnter *.edn  set ft=clojure
+au BufNewFile,BufRead,BufEnter *.joke  set ft=clojure
 
 
 " Don't use working location as vim's dumping ground
@@ -170,10 +169,10 @@ vnoremap <D-9> <Nop>
 vnoremap <D-0> <Nop>
 
 " Remap to switch buffers more naturally
+nnoremap <C-H> <C-W><C-H>
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
 
 nnoremap <D-]> :vertical resize -20<CR>
 nnoremap <D-[> :vertical resize +20<CR>
@@ -182,9 +181,6 @@ nnoremap <D-[> :vertical resize +20<CR>
 let g:rg_derive_root=1
 let g:rg_highlight=1
 noremap <Leader>r :Rg
-" noremap <Leader>f :FZF .<CR>
-" noremap <Leader>fs :FZF src/<CR>
-" noremap <Leader>F :FZF<Space>
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
@@ -220,31 +216,11 @@ let g:NERDSpaceDelims = 1 " Add spaces after comment delimiters by default
 let g:NERDTreeDirArrowExpandable = '►'
 let g:NERDTreeDirArrowCollapsible = '▼'
 
-" autocmd BufEnter * lcd %:p:h
 
+let g:ale_linters = {'clojure': ['clj-kondo']}
 
-" Syntastic
-if has("gui_macvim") || has("nvim")
-  set statusline+=%#warningmsg#
-  set statusline+=%{SyntasticStatuslineFlag()}
-  set statusline+=%*
-
-  let g:syntastic_always_populate_loc_list = 1
-  let g:syntastic_auto_loc_list = 0
-  let g:syntastic_check_on_open = 0
-  let g:syntastic_check_on_wq = 0
-
-  let g:syntastic_mode_map = {
-      \ "mode": "active",
-      \ "passive_filetypes": ["clojure"] }
-
-  let g:syntastic_clojure_checkers = ['joker']
-
-
-  highlight SyntasticWarning guibg=#d8d809 guifg=black
-  highlight SyntasticError guibg=#6c0001 guifg=white
-
-endif
+let @n="|dt r[i    \<Esc>A :as ]\<Esc>i"       " (ns x.y.z => [x.y.z :as ]
+let @r="|dt r[i    \<Esc>A :refer []]\<Esc>hi" " (ns x.y.z => [x.y.z :refer []]
 
 " Conjure stuff
 noremap <Leader>ad :ConjureShadowSelect android-dev<CR>
@@ -255,13 +231,13 @@ noremap <Leader>k  :ConjureDocWord<CR>
 if has("nvim")
   let g:conjure#mapping#doc_word = ["<Leader>ld"]
   let g:conjure#client#clojure#nrepl#mapping#session_clone = ["<Leader>s0"]
-  let g:conjure#log#hud#height = 1.0
-  let g:conjure#log#wrap = 1
+  let g:conjure#log#hud#height = 0.3
 endif
 
 
 noremap <Leader>gb :Git blame<CR>
 noremap <Leader>vv :vsplit<CR>
+
 
 
 command JSONPretty %!python -m json.tool
@@ -281,3 +257,6 @@ lua << END
     }
   })
 END
+
+set shellcmdflag=-ic " load ~/.zshrc on vim launch
+set nowrap
