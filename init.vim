@@ -66,6 +66,7 @@ endif
 
 set laststatus=2 " powerline
 
+set maxmempattern=2000
 
 set vb " disable Vim bell
 set nocompatible " lots of vimrc bugs otherwise
@@ -107,6 +108,8 @@ map! <F1> <Esc>
 
 nnoremap # :/<C-r><C-w><CR>
 
+nnoremap <Leader>gs :Gvsplit<space>
+nnoremap <Leader>vd :Gvsplit develop:%<CR>
 
 " File types
 au BufNewFile,BufRead,BufEnter *.sass set ft=sass
@@ -121,6 +124,7 @@ au BufNewFile,BufRead,BufEnter Podfile set filetype=ruby
 au BufNewFile,BufRead,BufEnter .re-natal set filetype=json
 au BufNewFile,BufRead,BufEnter *.edn  set ft=clojure
 au BufNewFile,BufRead,BufEnter *.joke  set ft=clojure
+au BufNewFile,BufRead,BufEnter *.mmd  set ft=mermaid
 
 
 " Don't use working location as vim's dumping ground
@@ -225,6 +229,8 @@ let @r="|dt r[i    \<Esc>A :refer []]\<Esc>hi" " (ns x.y.z => [x.y.z :refer []]
 " Conjure stuff
 noremap <Leader>ad :ConjureShadowSelect android-dev<CR>
 noremap <Leader>id :ConjureShadowSelect ios-dev<CR>
+noremap <Leader>c3 :ConjureConnect 3001<CR>
+noremap <Leader>c2 :ConjureShadowSelect app<CR>
 noremap <Leader>k  :ConjureDocWord<CR>
 
 
@@ -257,6 +263,12 @@ lua << END
     }
   })
 END
+
+
+"	'ctermfgs': ['dodgerblue1', 'orange1', 'seagreen3', 'red3', 'gold1'],
+let g:rainbow_conf = {
+      \	'guifgs': ['dodgerblue', 'coral', '#43cd80', 'crimson', 'gold'],
+      \ }
 
 set shellcmdflag=-ic " load ~/.zshrc on vim launch
 set nowrap
