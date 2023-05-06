@@ -222,6 +222,7 @@ let g:NERDTreeDirArrowCollapsible = '▼'
 
 
 let g:ale_linters = {'clojure': ['clj-kondo']}
+let g:ale_virtualtext_cursor = 'disabled' " Don't show warnings/errors inline as comments.
 
 let @n="|dt r[i    \<Esc>A :as ]\<Esc>i"       " (ns x.y.z => [x.y.z :as ]
 let @r="|dt r[i    \<Esc>A :refer []]\<Esc>hi" " (ns x.y.z => [x.y.z :refer []]
