@@ -50,6 +50,8 @@ Plug 'chrisbra/Colorizer'
 
 Plug 'edluffy/hologram.nvim'
 
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
 if has("nvim")
   Plug 'Olical/conjure', {'for': 'clojure', 'tag': 'v4.16.0'}
 end
