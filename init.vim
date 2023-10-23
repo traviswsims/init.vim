@@ -10,7 +10,9 @@ call plug#begin('~/.config/nvim/plugged')
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'nvim-tree/nvim-web-devicons' " optional
+Plug 'nvim-tree/nvim-tree.lua'
+
 
 Plug 'scrooloose/nerdcommenter'
 Plug 'ervandew/supertab'
@@ -50,8 +52,10 @@ Plug 'chrisbra/Colorizer'
 
 Plug 'edluffy/hologram.nvim'
 
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
 if has("nvim")
-  Plug 'Olical/conjure', {'for': 'clojure', 'tag': 'v4.16.0'}
+  Plug 'Olical/conjure', {'for': 'clojure' }
 end
 
 call plug#end()
@@ -101,7 +105,7 @@ map <Leader>t :NERDTreeToggle <CR> :set nu <CR>
 " commment lines on Command+k
 map <D-k> <Leader>c<Space>
 
- " normal, visual, select modes
+" normal, visual, select modes
 map <F1> <Esc>
  " insert, command modes
 map! <F1> <Esc>
@@ -112,19 +116,19 @@ nnoremap <Leader>gs :Gvsplit<space>
 nnoremap <Leader>vd :Gvsplit develop:%<CR>
 
 " File types
-au BufNewFile,BufRead,BufEnter *.sass set ft=sass
-au BufNewFile,BufRead,BufEnter *.as   set ft=actionscript
-au BufNewFile,BufRead,BufEnter *.mxml set ft=actionscript
-au BufNewFile,BufRead,BufEnter *.em   set ft=emblem
-au BufNewFile,BufRead,BufEnter *.md set ft=markdown
-au BufNewFile,BufRead,BufEnter *.md setlocal textwidth=120
-au BufNewFile,BufRead,BufEnter *.tex setlocal textwidth=120
-au BufNewFile,BufRead,BufEnter *.rabl set ft=ruby
-au BufNewFile,BufRead,BufEnter Podfile set filetype=ruby
-au BufNewFile,BufRead,BufEnter .re-natal set filetype=json
-au BufNewFile,BufRead,BufEnter *.edn  set ft=clojure
-au BufNewFile,BufRead,BufEnter *.joke  set ft=clojure
-au BufNewFile,BufRead,BufEnter *.mmd  set ft=mermaid
+au BufNewFile,BufRead,BufEnter *.as       set ft=actionscript
+au BufNewFile,BufRead,BufEnter *.edn      set ft=clojure
+au BufNewFile,BufRead,BufEnter *.em       set ft=emblem
+au BufNewFile,BufRead,BufEnter *.joke     set ft=clojure
+au BufNewFile,BufRead,BufEnter *.md       set ft=markdown
+au BufNewFile,BufRead,BufEnter *.md       setlocal textwidth=120
+au BufNewFile,BufRead,BufEnter *.mmd      set ft=mermaid
+au BufNewFile,BufRead,BufEnter *.mxml     set ft=actionscript
+au BufNewFile,BufRead,BufEnter *.rabl     set ft=ruby
+au BufNewFile,BufRead,BufEnter *.sass     set ft=sass
+au BufNewFile,BufRead,BufEnter *.tex      setlocal textwidth=120
+au BufNewFile,BufRead,BufEnter .re-natal  set filetype=json
+au BufNewFile,BufRead,BufEnter Podfile    set filetype=ruby
 
 
 " Don't use working location as vim's dumping ground
@@ -201,7 +205,10 @@ noremap <Leader>sc :SyntasticCheck<CR>
 
 noremap K i<CR><Esc>
 
+" golang
 let g:vim_json_syntax_conceal = 0
+let g:go_imports_autosave = 0
+nnoremap <Leader>gi :GoImports<CR>:GoFmt<CR>
 
 
 " vim-signify (Git status) colors
@@ -228,8 +235,7 @@ let @n="|dt r[i    \<Esc>A :as ]\<Esc>i"       " (ns x.y.z => [x.y.z :as ]
 let @r="|dt r[i    \<Esc>A :refer []]\<Esc>hi" " (ns x.y.z => [x.y.z :refer []]
 
 " Conjure stuff
-noremap <Leader>ad :ConjureShadowSelect android-dev<CR>
-noremap <Leader>id :ConjureShadowSelect ios-dev<CR>
+noremap <Leader>ad :ConjureShadowSelect dev<CR>
 noremap <Leader>c3 :ConjureConnect 3001<CR>
 noremap <Leader>c2 :ConjureShadowSelect app<CR>
 noremap <Leader>k  :ConjureDocWord<CR>
@@ -250,19 +256,104 @@ noremap <Leader>vv :vsplit<CR>
 command JSONPretty %!python -m json.tool
 
 lua << END
-  require('lualine').setup({
-    options = { theme = iceburg_dark,
-                icons_enabled = false
-              }
-  })
 
-  require('telescope').setup({
-    defaults = {
-      layout_config = { width = 0.95,
-                        height = 0.95
-                      }
-    }
-  })
+-- disable netrw at the very start of your init.lua
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
+local signs = {Error = '⨂ ', Warn = '⚠ '}
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl= hl, numhl = hl })
+  end
+
+require('lualine').setup({
+  options = { theme = iceburg_dark,
+              icons_enabled = false
+            }
+})
+
+require('telescope').setup({
+  defaults = {
+    layout_config = { width = 0.95,
+                      height = 0.95
+                    }
+  }
+})
+
+vim.g.neovide_cursor_animate_command_line = false
+vim.g.neovide_cursor_animate_in_insert_mode = false
+vim.g.neovide_cursor_animation_length = 0
+vim.o.guifont = "FiraMono Nerd Font Mono:h16:w1:#e-subpixelantialias"
+vim.o.linespace = 8
+vim.g.neovide_scale_factor = 1.0
+
+local change_scale_factor = function(delta)
+  vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * delta
+end
+
+vim.keymap.set("n", "<D-=>", function()
+  change_scale_factor(1.25)
+end)
+
+vim.keymap.set("n", "<D-->", function()
+  change_scale_factor(1/1.25)
+end)
+
+vim.keymap.set("n", "<D-0>", function()
+  vim.g.neovide_scale_factor = 1.0
+end)
+
+vim.keymap.set("n", "<D-t>", ':tabnew<CR>')
+vim.keymap.set("n", "<D-w>", ':tabclose<CR>')
+
+if vim.g.neovide then
+  vim.keymap.set('n', '<D-s>', ':w<CR>') -- Save
+  vim.keymap.set('v', '<D-c>', '"+y') -- Copy
+  vim.keymap.set('n', '<D-v>', '"+P') -- Paste normal mode
+  vim.keymap.set('v', '<D-v>', '"+P') -- Paste visual mode
+  vim.keymap.set('c', '<D-v>', '<C-R>+') -- Paste command mode
+  vim.keymap.set('i', '<D-v>', '<ESC>l"+Pli') -- Paste insert mode
+end
+
+-- Allow clipboard copy paste in neovim
+vim.api.nvim_set_keymap('', '<D-v>', '+p<CR>', { noremap = true, silent = true})
+vim.api.nvim_set_keymap('!', '<D-v>', '<C-R>+', { noremap = true, silent = true})
+vim.api.nvim_set_keymap('t', '<D-v>', '<C-R>+', { noremap = true, silent = true})
+vim.api.nvim_set_keymap('v', '<D-v>', '<C-R>+', { noremap = true, silent = true})
+
+
+-- set termguicolors to enable highlight groups
+vim.opt.termguicolors = true
+
+local function on_nvim_tree_attach(bufnr)
+  local api = require "nvim-tree.api"
+
+  local function opts(desc)
+    return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+  end
+
+  -- default mappings
+  api.config.mappings.default_on_attach(bufnr)
+
+  -- custom mappings
+  vim.keymap.set('n', 't', api.node.open.tab,        opts('Open: New Tab'))
+  vim.keymap.set('n', 's', api.node.open.vertical,   opts('Open: Vertical Split'))
+  vim.keymap.set('n', 'i', api.node.open.horizontal, opts('Open: Horizontal Split'))
+  vim.keymap.set('n', '?', api.tree.toggle_help,     opts('Help'))
+end
+
+-- empty setup using defaults
+require("nvim-tree").setup({
+  on_attach = on_nvim_tree_attach,
+  view = {
+    width = 35,
+  },
+  filters = {
+    dotfiles = true,
+  },
+})
+
 END
 
 
