@@ -100,7 +100,7 @@ vmap <Enter> <Plug>(EasyAlign)
 " Start interactive EasyAlign with a Vim movement
 nmap <Leader>a <Plug>(EasyAlign)
 
-map <Leader>t :NERDTreeToggle <CR> :set nu <CR>
+map <Leader>t :NvimTreeToggle <CR> :set nu <CR>
 
 " commment lines on Command+k
 map <D-k> <Leader>c<Space>
@@ -224,10 +224,6 @@ hi TabLineSel   guifg=gold   guibg=grey15
 let g:rainbow_active = 1
 let g:NERDSpaceDelims = 1 " Add spaces after comment delimiters by default
 
-let g:NERDTreeDirArrowExpandable = '►'
-let g:NERDTreeDirArrowCollapsible = '▼'
-
-
 let g:ale_linters = {'clojure': ['clj-kondo']}
 let g:ale_virtualtext_cursor = 'disabled' " Don't show warnings/errors inline as comments.
 
@@ -284,7 +280,7 @@ require('telescope').setup({
 vim.g.neovide_cursor_animate_command_line = false
 vim.g.neovide_cursor_animate_in_insert_mode = false
 vim.g.neovide_cursor_animation_length = 0
-vim.o.guifont = "FiraMono Nerd Font Mono:h16:w1:#e-subpixelantialias"
+vim.o.guifont = "FiraMono Nerd Font Mono:h15:w1:#e-subpixelantialias"
 vim.o.linespace = 8
 vim.g.neovide_scale_factor = 1.0
 
@@ -344,7 +340,7 @@ local function on_nvim_tree_attach(bufnr)
 end
 
 -- empty setup using defaults
-require("nvim-tree").setup({
+require('nvim-tree').setup({
   on_attach = on_nvim_tree_attach,
   view = {
     width = 35,
