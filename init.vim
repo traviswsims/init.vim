@@ -101,14 +101,7 @@ vmap <Enter> <Plug>(EasyAlign)
 nmap <Leader>a <Plug>(EasyAlign)
 
 map <Leader>t :NvimTreeToggle <CR> :set nu <CR>
-
-" commment lines on Command+k
-map <D-k> <Leader>c<Space>
-
-" normal, visual, select modes
-map <F1> <Esc>
- " insert, command modes
-map! <F1> <Esc>
+map <Leader>n :tabe <CR>
 
 nnoremap # :/<C-r><C-w><CR>
 
@@ -143,16 +136,16 @@ noremap <C-Tab> :tabnext<CR>
 noremap <C-S-Tab> :tabprev<CR>
 
 " Switch to specific tab numbers with Command-number
-nnoremap <D-1> :tabn 1<CR>
-nnoremap <D-2> :tabn 2<CR>
-nnoremap <D-3> :tabn 3<CR>
-nnoremap <D-4> :tabn 4<CR>
-nnoremap <D-5> :tabn 5<CR>
-nnoremap <D-6> :tabn 6<CR>
-nnoremap <D-7> :tabn 7<CR>
-nnoremap <D-8> :tabn 8<CR>
-nnoremap <D-9> :tabn 9<CR>
-nnoremap <D-0> :tablast<CR>
+nnoremap <Leader>1 :tabn 1<CR>
+nnoremap <Leader>2 :tabn 2<CR>
+nnoremap <Leader>3 :tabn 3<CR>
+nnoremap <Leader>4 :tabn 4<CR>
+nnoremap <Leader>5 :tabn 5<CR>
+nnoremap <Leader>6 :tabn 6<CR>
+nnoremap <Leader>7 :tabn 7<CR>
+nnoremap <Leader>8 :tabn 8<CR>
+nnoremap <Leader>9 :tabn 9<CR>
+nnoremap <Leader>0 :tablast<CR>
 
 inoremap <D-1> <Nop>
 inoremap <D-2> <Nop>
@@ -184,7 +177,6 @@ nnoremap <C-L> <C-W><C-L>
 
 nnoremap <D-]> :vertical resize -20<CR>
 nnoremap <D-[> :vertical resize +20<CR>
-
 
 let g:rg_derive_root=1
 let g:rg_highlight=1
@@ -247,6 +239,13 @@ endif
 noremap <Leader>gb :Git blame<CR>
 noremap <Leader>vv :vsplit<CR>
 
+" Copy to system clipbaord
+noremap <Leader>vy "+y<CR>
+
+" Paste from system clipbaord
+noremap <Leader>vp "+P<CR>
+
+" set clipboard+=unnamedplus
 
 
 command JSONPretty %!python -m json.tool
@@ -276,48 +275,6 @@ require('telescope').setup({
                     }
   }
 })
-
-vim.g.neovide_cursor_animate_command_line = false
-vim.g.neovide_cursor_animate_in_insert_mode = false
-vim.g.neovide_cursor_animation_length = 0
-vim.o.guifont = "FiraMono Nerd Font Mono:h15:w1:#e-subpixelantialias"
-vim.o.linespace = 8
-vim.g.neovide_scale_factor = 1.0
-
-local change_scale_factor = function(delta)
-  vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * delta
-end
-
-vim.keymap.set("n", "<D-=>", function()
-  change_scale_factor(1.25)
-end)
-
-vim.keymap.set("n", "<D-->", function()
-  change_scale_factor(1/1.25)
-end)
-
-vim.keymap.set("n", "<D-0>", function()
-  vim.g.neovide_scale_factor = 1.0
-end)
-
-vim.keymap.set("n", "<D-t>", ':tabnew<CR>')
-vim.keymap.set("n", "<D-w>", ':tabclose<CR>')
-
-if vim.g.neovide then
-  vim.keymap.set('n', '<D-s>', ':w<CR>') -- Save
-  vim.keymap.set('v', '<D-c>', '"+y') -- Copy
-  vim.keymap.set('n', '<D-v>', '"+P') -- Paste normal mode
-  vim.keymap.set('v', '<D-v>', '"+P') -- Paste visual mode
-  vim.keymap.set('c', '<D-v>', '<C-R>+') -- Paste command mode
-  vim.keymap.set('i', '<D-v>', '<ESC>l"+Pli') -- Paste insert mode
-end
-
--- Allow clipboard copy paste in neovim
-vim.api.nvim_set_keymap('', '<D-v>', '+p<CR>', { noremap = true, silent = true})
-vim.api.nvim_set_keymap('!', '<D-v>', '<C-R>+', { noremap = true, silent = true})
-vim.api.nvim_set_keymap('t', '<D-v>', '<C-R>+', { noremap = true, silent = true})
-vim.api.nvim_set_keymap('v', '<D-v>', '<C-R>+', { noremap = true, silent = true})
-
 
 -- set termguicolors to enable highlight groups
 vim.opt.termguicolors = true
