@@ -10,7 +10,9 @@ call plug#begin('~/.config/nvim/plugged')
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'nvim-tree/nvim-web-devicons' " optional
+Plug 'nvim-tree/nvim-tree.lua'
+
 
 Plug 'scrooloose/nerdcommenter'
 Plug 'ervandew/supertab'
@@ -29,6 +31,7 @@ Plug 'jacoborus/tender.vim'
 
 " Languages
 Plug '2072/PHP-Indenting-for-VIm', {'for': 'php'}
+Plug 'vim-scripts/Flex-4', {'for': ['actionscript', 'mxml']}
 Plug 'luochen1990/rainbow'
 Plug 'dense-analysis/ale'
 
@@ -41,7 +44,7 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 
 Plug 'lervag/vimtex', {'for': 'tex'}
-Plug 'preservim/vim-markdown', {'for': 'markdown'}
+Plug 'gabrielelana/vim-markdown', {'for': 'markdown'}
 Plug 'mkitt/tabline.vim'
 
 Plug 'sheerun/vim-polyglot'
@@ -52,7 +55,7 @@ Plug 'edluffy/hologram.nvim'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 if has("nvim")
-  Plug 'Olical/conjure', {'for': 'clojure', 'tag': 'v4.16.0'}
+  Plug 'Olical/conjure', {'for': 'clojure' }
 end
 
 call plug#end()
@@ -97,15 +100,8 @@ vmap <Enter> <Plug>(EasyAlign)
 " Start interactive EasyAlign with a Vim movement
 nmap <Leader>a <Plug>(EasyAlign)
 
-map <Leader>t :NERDTreeToggle <CR> :set nu <CR>
-
-" commment lines on Command+k
-map <D-k> <Leader>c<Space>
-
- " normal, visual, select modes
-map <F1> <Esc>
- " insert, command modes
-map! <F1> <Esc>
+map <Leader>t :NvimTreeToggle <CR> :set nu <CR>
+map <Leader>n :tabe <CR>
 
 nnoremap # :/<C-r><C-w><CR>
 
@@ -113,17 +109,19 @@ nnoremap <Leader>gs :Gvsplit<space>
 nnoremap <Leader>vd :Gvsplit develop:%<CR>
 
 " File types
-au BufNewFile,BufRead,BufEnter *.sass set ft=sass
-au BufNewFile,BufRead,BufEnter *.em   set ft=emblem
-au BufNewFile,BufRead,BufEnter *.md set ft=markdown
-au BufNewFile,BufRead,BufEnter *.md setlocal textwidth=120
-au BufNewFile,BufRead,BufEnter *.tex setlocal textwidth=120
-au BufNewFile,BufRead,BufEnter *.rabl set ft=ruby
-au BufNewFile,BufRead,BufEnter Podfile set filetype=ruby
-au BufNewFile,BufRead,BufEnter .re-natal set filetype=json
-au BufNewFile,BufRead,BufEnter *.edn  set ft=clojure
-au BufNewFile,BufRead,BufEnter *.joke  set ft=clojure
-au BufNewFile,BufRead,BufEnter *.mmd  set ft=mermaid
+au BufNewFile,BufRead,BufEnter *.as       set ft=actionscript
+au BufNewFile,BufRead,BufEnter *.edn      set ft=clojure
+au BufNewFile,BufRead,BufEnter *.em       set ft=emblem
+au BufNewFile,BufRead,BufEnter *.joke     set ft=clojure
+au BufNewFile,BufRead,BufEnter *.md       set ft=markdown
+au BufNewFile,BufRead,BufEnter *.md       setlocal textwidth=120
+au BufNewFile,BufRead,BufEnter *.mmd      set ft=mermaid
+au BufNewFile,BufRead,BufEnter *.mxml     set ft=actionscript
+au BufNewFile,BufRead,BufEnter *.rabl     set ft=ruby
+au BufNewFile,BufRead,BufEnter *.sass     set ft=sass
+au BufNewFile,BufRead,BufEnter *.tex      setlocal textwidth=120
+au BufNewFile,BufRead,BufEnter .re-natal  set filetype=json
+au BufNewFile,BufRead,BufEnter Podfile    set filetype=ruby
 
 
 " Don't use working location as vim's dumping ground
@@ -138,16 +136,16 @@ noremap <C-Tab> :tabnext<CR>
 noremap <C-S-Tab> :tabprev<CR>
 
 " Switch to specific tab numbers with Command-number
-nnoremap <D-1> :tabn 1<CR>
-nnoremap <D-2> :tabn 2<CR>
-nnoremap <D-3> :tabn 3<CR>
-nnoremap <D-4> :tabn 4<CR>
-nnoremap <D-5> :tabn 5<CR>
-nnoremap <D-6> :tabn 6<CR>
-nnoremap <D-7> :tabn 7<CR>
-nnoremap <D-8> :tabn 8<CR>
-nnoremap <D-9> :tabn 9<CR>
-nnoremap <D-0> :tablast<CR>
+nnoremap <Leader>1 :tabn 1<CR>
+nnoremap <Leader>2 :tabn 2<CR>
+nnoremap <Leader>3 :tabn 3<CR>
+nnoremap <Leader>4 :tabn 4<CR>
+nnoremap <Leader>5 :tabn 5<CR>
+nnoremap <Leader>6 :tabn 6<CR>
+nnoremap <Leader>7 :tabn 7<CR>
+nnoremap <Leader>8 :tabn 8<CR>
+nnoremap <Leader>9 :tabn 9<CR>
+nnoremap <Leader>0 :tablast<CR>
 
 inoremap <D-1> <Nop>
 inoremap <D-2> <Nop>
@@ -180,7 +178,6 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <D-]> :vertical resize -20<CR>
 nnoremap <D-[> :vertical resize +20<CR>
 
-
 let g:rg_derive_root=1
 let g:rg_highlight=1
 noremap <Leader>r :Rg
@@ -200,7 +197,10 @@ noremap <Leader>sc :SyntasticCheck<CR>
 
 noremap K i<CR><Esc>
 
+" golang
 let g:vim_json_syntax_conceal = 0
+let g:go_imports_autosave = 0
+nnoremap <Leader>gi :GoImports<CR>:GoFmt<CR>
 
 
 " vim-signify (Git status) colors
@@ -216,10 +216,6 @@ hi TabLineSel   guifg=gold   guibg=grey15
 let g:rainbow_active = 1
 let g:NERDSpaceDelims = 1 " Add spaces after comment delimiters by default
 
-let g:NERDTreeDirArrowExpandable = '►'
-let g:NERDTreeDirArrowCollapsible = '▼'
-
-
 let g:ale_linters = {'clojure': ['clj-kondo']}
 let g:ale_virtualtext_cursor = 'disabled' " Don't show warnings/errors inline as comments.
 
@@ -227,8 +223,7 @@ let @n="|dt r[i    \<Esc>A :as ]\<Esc>i"       " (ns x.y.z => [x.y.z :as ]
 let @r="|dt r[i    \<Esc>A :refer []]\<Esc>hi" " (ns x.y.z => [x.y.z :refer []]
 
 " Conjure stuff
-noremap <Leader>ad :ConjureShadowSelect android-dev<CR>
-noremap <Leader>id :ConjureShadowSelect ios-dev<CR>
+noremap <Leader>ad :ConjureShadowSelect dev<CR>
 noremap <Leader>c3 :ConjureConnect 3001<CR>
 noremap <Leader>c2 :ConjureShadowSelect app<CR>
 noremap <Leader>k  :ConjureDocWord<CR>
@@ -244,24 +239,74 @@ endif
 noremap <Leader>gb :Git blame<CR>
 noremap <Leader>vv :vsplit<CR>
 
+" Copy to system clipbaord
+noremap <Leader>vy "+y<CR>
+
+" Paste from system clipbaord
+noremap <Leader>vp "+P<CR>
+
+" set clipboard+=unnamedplus
 
 
 command JSONPretty %!python -m json.tool
 
 lua << END
-  require('lualine').setup({
-    options = { theme = iceburg_dark,
-                icons_enabled = false
-              }
-  })
 
-  require('telescope').setup({
-    defaults = {
-      layout_config = { width = 0.95,
-                        height = 0.95
-                      }
-    }
-  })
+-- disable netrw at the very start of your init.lua
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
+local signs = {Error = '⨂ ', Warn = '⚠ '}
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl= hl, numhl = hl })
+  end
+
+require('lualine').setup({
+  options = { theme = iceburg_dark,
+              icons_enabled = false
+            }
+})
+
+require('telescope').setup({
+  defaults = {
+    layout_config = { width = 0.95,
+                      height = 0.95
+                    }
+  }
+})
+
+-- set termguicolors to enable highlight groups
+vim.opt.termguicolors = true
+
+local function on_nvim_tree_attach(bufnr)
+  local api = require "nvim-tree.api"
+
+  local function opts(desc)
+    return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+  end
+
+  -- default mappings
+  api.config.mappings.default_on_attach(bufnr)
+
+  -- custom mappings
+  vim.keymap.set('n', 't', api.node.open.tab,        opts('Open: New Tab'))
+  vim.keymap.set('n', 's', api.node.open.vertical,   opts('Open: Vertical Split'))
+  vim.keymap.set('n', 'i', api.node.open.horizontal, opts('Open: Horizontal Split'))
+  vim.keymap.set('n', '?', api.tree.toggle_help,     opts('Help'))
+end
+
+-- empty setup using defaults
+require('nvim-tree').setup({
+  on_attach = on_nvim_tree_attach,
+  view = {
+    width = 35,
+  },
+  filters = {
+    dotfiles = true,
+  },
+})
+
 END
 
 
