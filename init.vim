@@ -29,7 +29,6 @@ Plug 'jacoborus/tender.vim'
 
 " Languages
 Plug '2072/PHP-Indenting-for-VIm', {'for': 'php'}
-Plug 'vim-scripts/Flex-4', {'for': ['actionscript', 'mxml']}
 Plug 'luochen1990/rainbow'
 Plug 'dense-analysis/ale'
 
@@ -42,7 +41,7 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 
 Plug 'lervag/vimtex', {'for': 'tex'}
-Plug 'gabrielelana/vim-markdown', {'for': 'markdown'}
+Plug 'preservim/vim-markdown', {'for': 'markdown'}
 Plug 'mkitt/tabline.vim'
 
 Plug 'sheerun/vim-polyglot'
@@ -115,8 +114,6 @@ nnoremap <Leader>vd :Gvsplit develop:%<CR>
 
 " File types
 au BufNewFile,BufRead,BufEnter *.sass set ft=sass
-au BufNewFile,BufRead,BufEnter *.as   set ft=actionscript
-au BufNewFile,BufRead,BufEnter *.mxml set ft=actionscript
 au BufNewFile,BufRead,BufEnter *.em   set ft=emblem
 au BufNewFile,BufRead,BufEnter *.md set ft=markdown
 au BufNewFile,BufRead,BufEnter *.md setlocal textwidth=120
