@@ -31,7 +31,6 @@ Plug 'jacoborus/tender.vim'
 
 " Languages
 Plug '2072/PHP-Indenting-for-VIm', {'for': 'php'}
-Plug 'vim-scripts/Flex-4', {'for': ['actionscript', 'mxml']}
 Plug 'luochen1990/rainbow'
 Plug 'dense-analysis/ale'
 
@@ -97,9 +96,6 @@ autocmd FocusGained * silent! checktime
 " Start interactive EasyAlign in visual mode
 vmap <Enter> <Plug>(EasyAlign)
 
-" Start interactive EasyAlign with a Vim movement
-nmap <Leader>a <Plug>(EasyAlign)
-
 map <Leader>t :NvimTreeToggle <CR> :set nu <CR>
 map <Leader>n :tabe <CR>
 
@@ -109,18 +105,16 @@ nnoremap <Leader>gs :Gvsplit<space>
 nnoremap <Leader>vd :Gvsplit develop:%<CR>
 
 " File types
-au BufNewFile,BufRead,BufEnter *.as       set ft=actionscript
 au BufNewFile,BufRead,BufEnter *.edn      set ft=clojure
 au BufNewFile,BufRead,BufEnter *.em       set ft=emblem
 au BufNewFile,BufRead,BufEnter *.joke     set ft=clojure
 au BufNewFile,BufRead,BufEnter *.md       set ft=markdown
 au BufNewFile,BufRead,BufEnter *.md       setlocal textwidth=120
 au BufNewFile,BufRead,BufEnter *.mmd      set ft=mermaid
-au BufNewFile,BufRead,BufEnter *.mxml     set ft=actionscript
 au BufNewFile,BufRead,BufEnter *.rabl     set ft=ruby
 au BufNewFile,BufRead,BufEnter *.sass     set ft=sass
 au BufNewFile,BufRead,BufEnter *.tex      setlocal textwidth=120
-au BufNewFile,BufRead,BufEnter .re-natal  set filetype=json
+au BufNewFile,BufRead,BufEnter  .re-natal  set filetype=json
 au BufNewFile,BufRead,BufEnter Podfile    set filetype=ruby
 
 
@@ -175,8 +169,8 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 
-nnoremap <D-]> :vertical resize -20<CR>
-nnoremap <D-[> :vertical resize +20<CR>
+nnoremap <leader>- :vertical resize -20<CR>
+nnoremap <leader>= :vertical resize +20<CR>
 
 let g:rg_derive_root=1
 let g:rg_highlight=1
