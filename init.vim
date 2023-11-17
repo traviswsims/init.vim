@@ -51,7 +51,7 @@ Plug 'chrisbra/Colorizer'
 
 Plug 'edluffy/hologram.nvim'
 
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'fatih/vim-go', { 'for': 'go', 'do': ':GoUpdateBinaries' }
 
 if has("nvim")
   Plug 'Olical/conjure', {'for': 'clojure' }
@@ -98,6 +98,8 @@ vmap <Enter> <Plug>(EasyAlign)
 
 map <Leader>t :NvimTreeToggle <CR> :set nu <CR>
 map <Leader>n :tabe <CR>
+nmap K i<CR><Esc>
+
 
 nnoremap # :/<C-r><C-w><CR>
 
@@ -189,12 +191,13 @@ noremap <Leader>lc :lclose<CR>
 noremap <Leader>st :SyntasticToggle<CR>
 noremap <Leader>sc :SyntasticCheck<CR>
 
-noremap K i<CR><Esc>
 
 " golang
 let g:vim_json_syntax_conceal = 0
 let g:go_imports_autosave = 0
 nnoremap <Leader>gi :GoImports<CR>:GoFmt<CR>
+nnoremap <Leader>gd :GoDoc<CR>
+let g:go_doc_keywordprg_enabled = 0 " don't remap K to :GoDoc
 
 
 " vim-signify (Git status) colors
