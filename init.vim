@@ -26,7 +26,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'Shougo/neocomplete.vim'
 Plug 'wesQ3/vim-windowswap'
 
-Plug 'flazz/vim-colorschemes'
+Plug 'rafi/awesome-vim-colorschemes'
+Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 Plug 'jacoborus/tender.vim'
 
 " Languages
@@ -63,10 +64,13 @@ call plug#end()
 syntax on
 filetype plugin indent on
 
-if has("nvim")
-  colorscheme iceburger
-  highlight NormalFloat ctermbg=238 guibg=238
-endif
+colorscheme iceburger
+" colorscheme catppuccin-mocha
+" colorscheme ayu
+" colorscheme challenger_deep
+" colorscheme hybrid
+" colorscheme jellybeans
+highlight NormalFloat ctermbg = 238 guibg=238
 
 set laststatus=2 " powerline
 
@@ -107,6 +111,9 @@ nnoremap # :/<C-r><C-w><CR>
 
 nnoremap <Leader>gs :Gvsplit<space>
 nnoremap <Leader>vd :Gvsplit develop:%<CR>
+
+nnoremap <Leader>dv <Plug>(go-doc-vertical)
+nnoremap <Leader>db <Plug>(go-doc-browser)
 
 " File types
 au BufNewFile,BufRead,BufEnter *.as       set ft=actionscript
@@ -229,11 +236,13 @@ noremap <Leader>c2 :ConjureShadowSelect app<CR>
 noremap <Leader>k  :ConjureDocWord<CR>
 
 
-if has("nvim")
-  let g:conjure#mapping#doc_word = ["<Leader>ld"]
-  let g:conjure#client#clojure#nrepl#mapping#session_clone = ["<Leader>s0"]
-  let g:conjure#log#hud#height = 0.3
-endif
+let g:conjure#mapping#doc_word = ["<Leader>ld"]
+let g:conjure#client#clojure#nrepl#mapping#session_clone = ["<Leader>s0"]
+let g:conjure#log#hud#height = 0.3
+let g:conjure#client#clojure#nrepl#mapping#run_all_tests = ["<Leader>cta"]
+let g:conjure#client#clojure#nrepl#mapping#run_current_ns_tests = ["<Leader>ctn"]
+let g:conjure#client#clojure#nrepl#mapping#run_alternate_ns_tests = ["<Leader>ctN"]
+let g:conjure#client#clojure#nrepl#mapping#run_current_test = ["<Leader>ctc"]
 
 
 noremap <Leader>gb :Git blame<CR>
